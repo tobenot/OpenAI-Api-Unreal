@@ -46,4 +46,14 @@ public:
 
 	static FString GetEnvironmentVariable(FString key);
 	
+	static FString GetApiBaseUrl();
+	
+	UFUNCTION(BlueprintCallable, Category = "OpenAI")
+	static void SetApiBaseUrl(const FString& NewBaseUrl);
+
+	// 我建了一个新类去初始化这个值
+	static FString DefaultApiBaseUrl;
+
+private:
+	static FString DefaultDefaultApiBaseUrl;
 };

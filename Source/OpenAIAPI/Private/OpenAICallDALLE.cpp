@@ -69,7 +69,7 @@ void UOpenAICallDALLE::Activate()
 	tempHeader += _apiKey;
 
 	// set headers
-	FString url = FString::Printf(TEXT("https://api.openai.com/v1/images/generations"));
+	FString url = FString::Printf(TEXT("%s/images/generations"), *UOpenAIUtils::GetApiBaseUrl());
 	HttpRequest->SetURL(url);
 	HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
 	HttpRequest->SetHeader(TEXT("Authorization"), tempHeader);

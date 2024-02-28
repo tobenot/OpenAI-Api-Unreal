@@ -52,7 +52,8 @@ void UOpenAICallTranscriptions::Activate()
 
 	// Set the request method, URL, and headers
 
-	HttpRequest->SetURL("https://api.openai.com/v1/audio/transcriptions");
+	FString url = FString::Printf(TEXT("%s/audio/transcriptions"), *UOpenAIUtils::GetApiBaseUrl());
+	HttpRequest->SetURL(url);
 	HttpRequest->SetVerb("POST");
 	
 	// Set the content type, boundary, and form data

@@ -97,7 +97,7 @@ void UOpenAICallCompletions::Activate()
 	tempHeader += _apiKey;
 
 	// set headers
-	FString url = FString::Printf(TEXT("https://api.openai.com/v1/engines/%s/completions"), *apiMethod);
+	FString url = FString::Printf(TEXT("%s/engines/%s/completions"), *UOpenAIUtils::GetApiBaseUrl(), *apiMethod);
 	HttpRequest->SetURL(url);
 	HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json"));
 	HttpRequest->SetHeader(TEXT("Authorization"), tempHeader);

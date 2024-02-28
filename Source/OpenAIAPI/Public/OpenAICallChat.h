@@ -5,10 +5,11 @@
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintAsyncActionBase.h"
 #include "OpenAIDefinitions.h"
-#include "HttpModule.h"
+#include "OpenAIChat.h"
 #include "OpenAICallChat.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnResponseRecievedPin, const FChatCompletion, message, const FString&, errorMessage, bool, Success);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FOnResponseRecieved, const FChatCompletion, message, const FString&, errorMessage, bool, Success);
+
 /**
  * 
  */
@@ -25,14 +26,17 @@ public:
 	FChatSettings chatSettings;
 
 	UPROPERTY(BlueprintAssignable, Category = "OpenAI")
-	FOnResponseRecievedPin Finished;
+	FOnResponseRecieved Finished;
 
 private:
+	UPROPERTY()
+	UOpenAIChat* OpenAIChatInstance;
 
 	UFUNCTION(BlueprintCallable, meta = (BlueprintInternalUseOnly = "true"), Category = "OpenAI")
-		static UOpenAICallChat* OpenAICallChat(FChatSettings chatSettings);
+	static UOpenAICallChat* OpenAICallChat(FChatSettings chatSettings);
 
 	virtual void Activate() override;
-	void OnResponse(FHttpRequestPtr Request, FHttpResponsePtr Response, bool WasSuccessful);
-	
+
+	UFUNCTION()
+	void OnResponse(const FChatCompletion& Message,const FString& ErrorMessage, bool Success);
 };

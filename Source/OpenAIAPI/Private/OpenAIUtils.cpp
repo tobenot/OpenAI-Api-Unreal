@@ -47,3 +47,14 @@ FString UOpenAIUtils::GetEnvironmentVariable(FString key)
 	return result;
 }
 
+FString UOpenAIUtils::DefaultDefaultApiBaseUrl = "https://api.openai.com/v1";
+
+FString UOpenAIUtils::GetApiBaseUrl()
+{
+	return DefaultApiBaseUrl.IsEmpty()? DefaultDefaultApiBaseUrl: DefaultApiBaseUrl;
+}
+
+void UOpenAIUtils::SetApiBaseUrl(const FString& NewBaseUrl)
+{
+	DefaultApiBaseUrl = NewBaseUrl;
+}
