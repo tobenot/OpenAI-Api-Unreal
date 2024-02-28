@@ -140,6 +140,9 @@ struct FChatCompletion
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "OpenAI")
 	FString finishReason = "";
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "OpenAI")
+	int32 totalTokens = 0;
 };
 
 USTRUCT(BlueprintType)

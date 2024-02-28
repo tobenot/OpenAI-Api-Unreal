@@ -65,7 +65,11 @@ FChatCompletion OpenAIParser::ParseChatCompletion(const FJsonObject& json)
 	//res.index = json.GetIntegerField(TEXT("index"));
 	json.TryGetStringField(TEXT("finish_reason"), res.finishReason);
 	res.message = message;
-	
+	TSharedPtr<FJsonObject> usageObject = json.GetObjectField("usage");
+	if (usageObject.IsValid())
+	{
+		res.totalTokens = usageObject->GetIntegerField("total_tokens");
+	}
 	return res;
 }
 
