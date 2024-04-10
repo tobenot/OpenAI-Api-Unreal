@@ -49,7 +49,7 @@ void UOpenAIChat::StartChat()
 		switch (ChatSettings.model)
 		{
 		case EOAChatEngineType::GPT_3_5_TURBO:
-			apiMethod = "gpt-3.5-turbo-1106";
+			apiMethod = "gpt-3.5-turbo";
 			break;
 		case EOAChatEngineType::GPT_4:
 			apiMethod = "gpt-4";
@@ -58,7 +58,7 @@ void UOpenAIChat::StartChat()
 			apiMethod = "gpt-4-32k";
 			break;
 		case EOAChatEngineType::GPT_4_TURBO:
-			apiMethod = "gpt-4-1106-preview";
+			apiMethod = "gpt-4-0125-preview";
 			break;
 		}
 		// TODO: Add additional params to match the ones listed in the curl response in: https://platform.openai.com/docs/api-reference/making-requests
