@@ -200,7 +200,7 @@ UOpenAIChat* UOpenAIChat::Chat(const FChatSettings& ChatSettings,
 	UOpenAIChat* OpenAIChatInstance = CreateChatInstance();
 	OpenAIChatInstance->Init(ChatSettings);
 
-	//OpenAIChatInstance->AddToRoot();
+	OpenAIChatInstance->AddToRoot();
 	
 	// Use Lambda as the callback function
 	auto OnResponseCallback = [Callback, OpenAIChatInstance](const FChatCompletion& Message, const FString& ErrorMessage, bool Success)
@@ -222,7 +222,7 @@ UOpenAIChat* UOpenAIChat::Chat(const FChatSettings& ChatSettings,
 			UE_LOG(LogChat, Error, TEXT("Chat Callback is null."));
 		}
 		
-		//OpenAIChatInstance->RemoveFromRoot();
+		OpenAIChatInstance->RemoveFromRoot();
 		
 		// Destroy OpenAIChatInstance after receiving the response
 		OpenAIChatInstance->ConditionalBeginDestroy();
