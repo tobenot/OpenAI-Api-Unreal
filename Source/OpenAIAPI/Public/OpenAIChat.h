@@ -21,6 +21,7 @@ class OPENAIAPI_API UOpenAIChat : public UObject
 
 public:
 	UOpenAIChat();
+	~UOpenAIChat();
 
 	UFUNCTION(BlueprintCallable, Category = "OpenAI")
 	static UOpenAIChat* CreateChatInstance();
@@ -29,6 +30,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "OpenAI")
 	void StartChat();
+	
+	UFUNCTION(BlueprintCallable, Category = "OpenAI")
+	void CancelRequest();
 
 	UPROPERTY()
 	FOnResponseReceivedPin OnResponseReceived;
@@ -44,4 +48,7 @@ public:
 
 private:
 	void HandleRequestProgress(FHttpRequestPtr Request, int32 BytesSent, int32 BytesReceived);
+
+private:
+	TSharedPtr<IHttpRequest, ESPMode::ThreadSafe> CurrentRequest;
 };

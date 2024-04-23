@@ -16,6 +16,15 @@ UOpenAIChat::UOpenAIChat()
 {
 }
 
+UOpenAIChat::~UOpenAIChat()
+{
+	if (CurrentRequest.IsValid())
+	{
+		CurrentRequest->CancelRequest();
+		CurrentRequest.Reset();
+	}
+}
+
 UOpenAIChat* UOpenAIChat::CreateChatInstance()
 {
 	return NewObject<UOpenAIChat>();
@@ -130,6 +139,8 @@ void UOpenAIChat::StartChat()
 		HttpRequest->OnRequestProgress().BindUObject(this, &UOpenAIChat::HandleRequestProgress);
 		HttpRequest->OnProcessRequestComplete().BindUObject(this, &UOpenAIChat::OnResponse);
 		UE_LOG(LogChat, Log, TEXT("UOpenAIChat BindProcessRequestComplete"));
+
+		CurrentRequest = HttpRequest;
 		
 		if (HttpRequest->ProcessRequest())
 		{
@@ -140,6 +151,23 @@ void UOpenAIChat::StartChat()
 			OnResponseReceived.ExecuteIfBound({}, TEXT("Error sending request"), false);
 			OnResponseReceivedF.ExecuteIfBound({}, TEXT("Error sending request"), false);
 		}
+	}
+}
+
+void UOpenAIChat::CancelRequest()
+{
+	if (CurrentRequest.IsValid() && CurrentRequest->GetStatus() == EHttpRequestStatus::Processing)
+	{
+		CurrentRequest->OnRequestProgress().Unbind();
+		CurrentRequest->OnProcessRequestComplete().Unbind();
+		// 取消请求
+		CurrentRequest->CancelRequest();
+		// 清除引用
+		CurrentRequest.Reset();
+
+		// Optionally, trigger the response delegate with a cancelled state.
+		OnResponseReceived.ExecuteIfBound({}, TEXT("Request cancelled"), false);
+		OnResponseReceivedF.ExecuteIfBound({}, TEXT("Request cancelled"), false);
 	}
 }
 
