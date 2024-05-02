@@ -239,7 +239,7 @@ UOpenAIChat* UOpenAIChat::Chat(const FChatSettings& ChatSettings,
 			UE_LOG(LogChat, Error, TEXT("Chat request failed. Error: %s"), *ErrorMessage);
 		}
 
-		if (Callback)
+		if (Callback && OpenAIChatInstance->IsValidLowLevel())
 		{
 			// Call the provided callback function
 			Callback(Message, ErrorMessage, Success);
