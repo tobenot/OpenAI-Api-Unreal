@@ -24,7 +24,7 @@ public:
     UOpenAICallEmbedding();
     ~UOpenAICallEmbedding();
 
-    FVector EmbeddingSettings; // This should be of type appropriate for embedding settings
+    FEmbeddingSettings EmbeddingSettings; // This should be of type appropriate for embedding settings
 
     UPROPERTY(BlueprintAssignable, Category = "OpenAI")
     FOnEmbeddingResponseReceived Finished;
@@ -34,7 +34,7 @@ private:
     UOpenAIEmbedding* OpenAIEmbeddingInstance;
 
     UFUNCTION(BlueprintCallable, meta = (BlueprintInternalUseOnly = "true"), Category = "OpenAI")
-    static UOpenAICallEmbedding* OpenAICallEmbedding(const FVector& EmbeddingSettings); // This should use the correct type for embedding settings
+    static UOpenAICallEmbedding* OpenAICallEmbedding(const FEmbeddingSettings& EmbeddingSettings); // This should use the correct type for embedding settings
 
     virtual void Activate() override;
 

@@ -4,7 +4,7 @@
 // UOpenAICallEmbedding.cpp
 
 #include "OpenAICallEmbedding.h"
-#include "OpenAIUtils.h" // If there are any utility methods needed, include the appropriate headers
+#include "OpenAIUtils.h"
 
 UOpenAICallEmbedding::UOpenAICallEmbedding()
 	: OpenAIEmbeddingInstance(nullptr)
@@ -19,11 +19,10 @@ UOpenAICallEmbedding::~UOpenAICallEmbedding()
 	}
 }
 
-UOpenAICallEmbedding* UOpenAICallEmbedding::OpenAICallEmbedding(const FVector& EmbeddingSettingsInput)
+UOpenAICallEmbedding* UOpenAICallEmbedding::OpenAICallEmbedding(const FEmbeddingSettings& EmbeddingSettingsInput)
 {
-	// Make sure to use the correct type for embedding settings instead of FVector
 	UOpenAICallEmbedding* BPNode = NewObject<UOpenAICallEmbedding>();
-	BPNode->EmbeddingSettings = EmbeddingSettingsInput; // Will need adjustments
+	BPNode->EmbeddingSettings = EmbeddingSettingsInput;
 	return BPNode;
 }
 
@@ -34,8 +33,9 @@ void UOpenAICallEmbedding::Activate()
 		OpenAIEmbeddingInstance = UOpenAIEmbedding::CreateEmbeddingInstance();
 	}
 
-	// Similar to UOpenAICallChat, set up the embedding settings and binding to the callback
-	// ...
+	OpenAIEmbeddingInstance->Init(EmbeddingSettings);
+
+	OpenAIEmbeddingInstance->OnResponseReceived.BindDynamic(this, &UOpenAICallEmbedding::OnResponse);
 
 	OpenAIEmbeddingInstance->StartEmbedding();
 }

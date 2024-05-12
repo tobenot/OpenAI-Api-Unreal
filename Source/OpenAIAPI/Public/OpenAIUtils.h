@@ -56,4 +56,23 @@ public:
 
 private:
 	static FString DefaultDefaultApiBaseUrl;
+
+public:
+	UFUNCTION(BlueprintCallable, Category = "OpenAI")
+	static float HDVectorDotProductSIMD(const FHighDimensionalVector& A, const FHighDimensionalVector& B);
+
+	UFUNCTION(BlueprintCallable, Category = "OpenAI")
+	static float HDVectorLengthSIMD(const FHighDimensionalVector& Vector);
+
+	UFUNCTION(BlueprintCallable, Category = "OpenAI")
+	static float HDVectorCosineSimilaritySIMD(const FHighDimensionalVector& A, const FHighDimensionalVector& B);
+
+	UFUNCTION(BlueprintCallable, Category = "OpenAI")
+	static float HDVectorDotProduct(const FHighDimensionalVector& A, const FHighDimensionalVector& B);
+	
+	UFUNCTION(BlueprintCallable, Category = "OpenAI")
+	static float HDVectorLength(const FHighDimensionalVector& Vector);
+
+	UFUNCTION(BlueprintCallable, Category = "OpenAI")
+	static float HDVectorCosineSimilarity(const FHighDimensionalVector& A, const FHighDimensionalVector& B);
 };

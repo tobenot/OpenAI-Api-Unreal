@@ -370,7 +370,7 @@ struct FEmbeddingSettings
 	GENERATED_USTRUCT_BODY();
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "OpenAI")
-	EEmbeddingEngineType model = EEmbeddingEngineType::TEXT_EMBEDDING_ADA_002;
+	EEmbeddingEngineType model = EEmbeddingEngineType::TEXT_EMBEDDING_3_SMALL;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "OpenAI")
 	FString input = "";
@@ -381,6 +381,7 @@ struct FHighDimensionalVector
 {
 	GENERATED_USTRUCT_BODY();
 	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "OpenAI")
 	TArray<float> Components;
 
 	FHighDimensionalVector()
@@ -394,62 +395,6 @@ struct FHighDimensionalVector
 	FHighDimensionalVector(const TArray<float>& ComponentsArray)
 	{
 		Components = ComponentsArray;
-	}
-
-	float DotProductSIMD(const FHighDimensionalVector& A, const FHighDimensionalVector& B) const
-	{
-		check(A.Components.Num() == B.Components.Num());
-		// To utilize SIMD acceleration, the dimensionality of high-dimensional vectors needs to be a multiple of 4.
-		check(A.Components.Num() % 4 == 0);
-
-		__m128 Sum = _mm_setzero_ps();
-		for (int32 i = 0; i < A.Components.Num(); i += 4)
-		{
-			__m128 AVec = _mm_loadu_ps(&A.Components[i]);
-			__m128 BVec = _mm_loadu_ps(&B.Components[i]);
-			__m128 Mul = _mm_mul_ps(AVec, BVec);
-			Sum = _mm_add_ps(Sum, Mul);
-		}
-
-		float Result[4];
-		_mm_storeu_ps(Result, Sum);
-		return Result[0] + Result[1] + Result[2] + Result[3];
-	}
-
-	float VectorLengthSIMD(const FHighDimensionalVector& Vector) const
-	{
-		return FMath::Sqrt(DotProductSIMD(Vector, Vector));
-	}
-
-	float CosineSimilaritySIMD(const FHighDimensionalVector& A, const FHighDimensionalVector& B) const
-	{
-		float DotProductValue = DotProductSIMD(A, B);
-		float LengthProduct = VectorLengthSIMD(A) * VectorLengthSIMD(B);
-		return DotProductValue / LengthProduct;
-	}
-	
-	float DotProduct(const FHighDimensionalVector& A, const FHighDimensionalVector& B) const
-	{
-		check(A.Components.Num() == B.Components.Num());
-        
-		float Sum = 0.0f;
-		for (int32 i = 0; i < A.Components.Num(); i++)
-		{
-			Sum += A.Components[i] * B.Components[i];
-		}
-		return Sum;
-	}
-	
-	float VectorLength(const FHighDimensionalVector& Vector) const
-	{
-		return FMath::Sqrt(DotProduct(Vector, Vector));
-	}
-	
-	float CosineSimilarity(const FHighDimensionalVector& A, const FHighDimensionalVector& B) const
-	{
-		float DotProductValue = DotProduct(A, B);
-		float LengthProduct = VectorLength(A) * VectorLength(B);
-		return DotProductValue / LengthProduct;
 	}
 };
 
