@@ -1,4 +1,9 @@
 # OpenAI API Plugin
+
+> **不再维护 / UNMAINTAINED.**  
+> 本 fork 已停止维护（最后提交：2024-05）。针对 UE 5.3 与 GPT-3.5 / GPT-4 时代的 API，模型和引擎都已过时，**请勿用于新项目**。  
+> 上游 [KellanM/OpenAI-Api-Unreal](https://github.com/KellanM/OpenAI-Api-Unreal) 同样停更。仓库仅作存档。
+
 The **OpenAIApi Plugin** gives you access to the **OpenAI API** in **Unreal Engine**. It is compatible with 4.26, 4.27, 5.0, 5.1, 5.2, and 5.3
 
 This is a community Plugin. No affiliation with OpenAI
