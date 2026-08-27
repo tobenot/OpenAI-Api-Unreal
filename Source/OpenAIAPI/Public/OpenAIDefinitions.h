@@ -228,14 +228,14 @@ struct FChatSettings
 	GENERATED_USTRUCT_BODY();
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "OpenAI")
-	EOAChatEngineType model = EOAChatEngineType::GPT_4;
+	EOAChatEngineType model = EOAChatEngineType::GPT_3_5_TURBO;
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "OpenAI")
 	TArray<FChatLog> messages;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "OpenAI")
 	float temperature = 1.0f;
-
+	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "OpenAI")
 	int32 maxTokens = 1000;
 
@@ -395,6 +395,10 @@ struct FHighDimensionalVector
 	FHighDimensionalVector(const TArray<float>& ComponentsArray)
 	{
 		Components = ComponentsArray;
+	}
+	friend FArchive& operator<<(FArchive& Ar, FHighDimensionalVector& Vector)
+	{
+		return Ar << Vector.Components;
 	}
 };
 
